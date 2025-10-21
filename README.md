@@ -7,7 +7,7 @@ Features that work currently :
 
 How to Use:
 
-Open the application (https://sameerashaikislam.github.io/quran-tracker)in your browser.
+Open the application (https://sameerashaikislam.github.io/quran-tracker) in your browser.
 Navigate to the desired Surah or Ayah.
 Click the “Learned,” “Still Learning,” or “Confused” button to mark your progress.
 View your overall progress anytime.
