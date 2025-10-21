@@ -2,13 +2,25 @@ const findVerseBtn = document.getElementById('find-verse');
 const verseGrid = document.getElementById('verse-grid');
 const errorPopup = document.getElementById('error-popup');
 const closePopup = document.getElementById('close-popup');
+const errorMsg = errorPopup.querySelector('p'); // Assuming your popup has a <p> for text
 
 findVerseBtn.addEventListener('click', async () => {
   const surah = document.getElementById('surah').value.trim();
   const ayah = document.getElementById('ayah').value.trim();
 
+  // Basic input validation
   if (!surah || !ayah) {
-    showErrorPopup();
+    showErrorPopup("Please enter both Surah and Ayah numbers.");
+    return;
+  }
+
+  // Check if this verse is already displayed
+  const exists = Array.from(verseGrid.querySelectorAll('.ref')).some(ref =>
+    ref.textContent.includes(`Surah ${surah}, Ayah ${ayah}`)
+  );
+
+  if (exists) {
+    showErrorPopup("This verse is already displayed on the screen!");
     return;
   }
 
@@ -58,7 +70,7 @@ findVerseBtn.addEventListener('click', async () => {
       learnedBtn.style.cursor = 'pointer';
       learnedBtn.style.borderRadius = '5px';
       learnedBtn.addEventListener('click', () => {
-        card.style.backgroundColor = '#d4f7dc'; // light green
+        card.style.backgroundColor = '#d4f7dc';
       });
 
       // Still Learning button
@@ -71,7 +83,7 @@ findVerseBtn.addEventListener('click', async () => {
       learningBtn.style.cursor = 'pointer';
       learningBtn.style.borderRadius = '5px';
       learningBtn.addEventListener('click', () => {
-        card.style.backgroundColor = '#fff3cd'; // light yellow
+        card.style.backgroundColor = '#fff3cd';
       });
 
       // Confused button
@@ -84,10 +96,10 @@ findVerseBtn.addEventListener('click', async () => {
       confusedBtn.style.cursor = 'pointer';
       confusedBtn.style.borderRadius = '5px';
       confusedBtn.addEventListener('click', () => {
-        card.style.backgroundColor = '#f8d7da'; // light red
+        card.style.backgroundColor = '#f8d7da';
       });
 
-      // Append buttons to container and container to card
+      // Append buttons to card
       statusContainer.appendChild(learnedBtn);
       statusContainer.appendChild(learningBtn);
       statusContainer.appendChild(confusedBtn);
@@ -95,19 +107,20 @@ findVerseBtn.addEventListener('click', async () => {
 
       verseGrid.prepend(card);
     } else {
-      showErrorPopup();
+      showErrorPopup("Verse not found! Please check the Surah and Ayah numbers.");
     }
   } catch (error) {
     console.error(error);
-    showErrorPopup();
+    showErrorPopup("Something went wrong while fetching the verse. Please try again.");
   } finally {
     findVerseBtn.disabled = false;
     findVerseBtn.textContent = "Find Verse";
   }
 });
 
-// Show popup function
-function showErrorPopup() {
+// Show popup function (now accepts a custom message)
+function showErrorPopup(message = "An unexpected error occurred.") {
+  if (errorMsg) errorMsg.textContent = message;
   errorPopup.style.display = "block";
 }
 
