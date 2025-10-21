@@ -12,16 +12,21 @@ findVerseBtn.addEventListener('click', async () => {
     return;
   }
 
-  const url = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/en.asad`;
   findVerseBtn.disabled = true;
   findVerseBtn.textContent = "Loading...";
 
   try {
-    const response = await fetch(url);
-    const data = await response.json();
+    // Fetch English and Arabic in parallel
+    const englishUrl = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/en.asad`;
+    const arabicUrl = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar.alafasy`;
 
-    if (data.code === 200) {
-      const verse = data.data;
+    const [englishRes, arabicRes] = await Promise.all([fetch(englishUrl), fetch(arabicUrl)]);
+    const englishData = await englishRes.json();
+    const arabicData = await arabicRes.json();
+
+    if (englishData.code === 200 && arabicData.code === 200) {
+      const englishVerse = englishData.data;
+      const arabicVerse = arabicData.data;
 
       // Random border color
       const colors = ['#ff6f61', '#6dd5ed', '#fbc531', '#9b59b6', '#2ecc71', '#e67e22'];
@@ -31,9 +36,9 @@ findVerseBtn.addEventListener('click', async () => {
       card.className = 'verse-card';
       card.style.borderTop = `5px solid ${color}`;
       card.innerHTML = `
-        <p class="arabic">${verse.text}</p>
-        <p class="translation"><strong>${verse.edition.englishName}</strong>: ${verse.text}</p>
-        <p class="ref">Surah ${verse.surah.number}, Ayah ${verse.numberInSurah}</p>
+        <p class="arabic">${arabicVerse.text}</p>
+        <p class="translation"><strong>${englishVerse.edition.englishName}</strong>: ${englishVerse.text}</p>
+        <p class="ref">Surah ${arabicVerse.surah.number}, Ayah ${arabicVerse.numberInSurah}</p>
       `;
 
       verseGrid.prepend(card);
@@ -41,8 +46,8 @@ findVerseBtn.addEventListener('click', async () => {
       showErrorPopup();
     }
   } catch (error) {
-    showErrorPopup();
     console.error(error);
+    showErrorPopup();
   } finally {
     findVerseBtn.disabled = false;
     findVerseBtn.textContent = "Find Verse";

@@ -64,12 +64,21 @@ h1 {
   transform: scale(1.05);
 }
 
+
 main {
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center;     /* vertical centering */
+  flex-direction: column;
+  height: calc(100vh - 100px); /* full viewport minus header/footer */
+}
+
+/* main {
   flex: 1;
   width: 90%;
   max-width: 1200px;
   margin: 40px auto;
-}
+} */
 
 .verse-grid {
   display: grid;
