@@ -16,9 +16,9 @@ findVerseBtn.addEventListener('click', async () => {
   findVerseBtn.textContent = "Loading...";
 
   try {
-    // Fetch English and Arabic in parallel
+    // Fetch English and Arabic text in parallel
     const englishUrl = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/en.asad`;
-    const arabicUrl = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar.alafasy`;
+    const arabicUrl = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/ar`; // <-- use text edition
 
     const [englishRes, arabicRes] = await Promise.all([fetch(englishUrl), fetch(arabicUrl)]);
     const englishData = await englishRes.json();
