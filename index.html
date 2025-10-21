@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qur'an Verse Finder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>✨ Qur'an Verse Finder</h1>
+    <div class="search-bar">
+      <input type="number" id="surah" placeholder="Surah (1–114)" min="1" max="114" />
+      <input type="number" id="ayah" placeholder="Ayah" min="1" />
+      <button id="find-verse">Find Verse</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="verse-grid" class="verse-grid"></div>
+  </main>
+
+  <footer>
+    <p>Made with 🌙 and 💻 for Hacktoberfest 2025</p>
+  </footer>
+
+  <!-- Error Popup -->
+  <div id="error-popup" class="error-popup">
+    <div class="popup-content">
+      <h2>❌ Verse Not Found</h2>
+      <p>Sorry, that verse doesn’t exist. Please check your Surah and Ayah numbers.</p>
+      <button id="close-popup">OK</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
