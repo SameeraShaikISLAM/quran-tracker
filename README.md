@@ -1,5 +1,6 @@
 # quran-tracker
 Features that work currently : 
+
 -->Track progress across Surahs and Ayahs.
 
 -->Mark sections as Learned, Still Learning, or Confused.
@@ -15,7 +16,7 @@ Features that work currently :
 -->Simple and intuitive user interface for easy navigation
 
 
-How to Use:
+#How to Use:
 
 Open the application (https://sameerashaikislam.github.io/quran-tracker) in your browser.
 
@@ -25,7 +26,7 @@ Click the “Learned,” “Still Learning,” or “Confused” button to mark 
 
 View your overall progress anytime on status box
 
-Contributing:
+#Contributing:
 
 Contributions are welcome! Feel free to:
 Add new features (e.g., search, analytics)
