@@ -7,6 +7,17 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- ===== Status Box ===== -->
+  <div id="status-box">
+    <h3>Today's Summary</h3>
+    <p id="gregorian-date"></p>
+    <p id="hijri-date"></p>
+    <hr />
+    <p><span class="dot learned-dot"></span> Learned: <span id="learned-count">0</span></p>
+    <p><span class="dot learning-dot"></span> Still Learning: <span id="learning-count">0</span></p>
+    <p><span class="dot confused-dot"></span> Confused: <span id="confused-count">0</span></p>
+  </div>
+
   <header>
     <h1>✨ Qur'an Verse Finder</h1>
     <div class="search-bar">
@@ -21,6 +32,10 @@
   </main>
 
   <footer>
+    <p>
+      Quran text and translations provided by 
+      <a href="https://quran.com" target="_blank" rel="noopener noreferrer">Quran.com</a>.
+    </p>
     <p>Made with &hearts; and 💻 for Hacktoberfest 2025</p>
   </footer>
 
@@ -36,4 +51,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
