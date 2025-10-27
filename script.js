@@ -45,6 +45,17 @@ closePopup.addEventListener('click', () => {
   errorPopup.style.display = 'none';
 });
 
+// ===== Toast Notification =====
+function showToast(message) {
+  let toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
 // ===== Status Count Update =====
 function updateCounts() {
   let learned = 0, learning = 0, confused = 0;
@@ -104,13 +115,44 @@ findVerseBtn.addEventListener('click', async () => {
     const card = document.createElement('div');
     card.className = 'verse-card';
     card.style.borderTop = `5px solid ${color}`;
+    card.style.position = 'relative';
+
+    // ===== Add Favorite Star =====
+    const starBtn = document.createElement('span');
+    starBtn.className = 'favorite-star';
+    starBtn.innerHTML = '☆';
+    starBtn.title = 'Mark as Favorite';
+
+    // Unique key for each verse
+    const verseKey = `surah${arabicVerse.surah.number}-ayah${arabicVerse.numberInSurah}`;
+
+    // Check if already favorited
+    if (localStorage.getItem(verseKey) === 'favorite') {
+      starBtn.classList.add('active');
+      starBtn.innerHTML = '★';
+    }
+
+    // Toggle favorite
+    starBtn.addEventListener('click', () => {
+      const isFav = starBtn.classList.toggle('active');
+      starBtn.innerHTML = isFav ? '★' : '☆';
+      if (isFav) {
+        localStorage.setItem(verseKey, 'favorite');
+      } else {
+        localStorage.removeItem(verseKey);
+      }
+    });
+
     card.innerHTML = `
       <p class="arabic">${arabicVerse.text}</p>
       <p class="translation"><strong>${englishVerse.edition.englishName}</strong>: ${englishVerse.text}</p>
       <p class="ref">Surah ${arabicVerse.surah.number}, Ayah ${arabicVerse.numberInSurah}</p>
     `;
 
-    // Status Buttons
+    // Append the favorite star
+    card.appendChild(starBtn);
+
+    // ===== Status Buttons =====
     const statusContainer = document.createElement('div');
     statusContainer.style.display = 'flex';
     statusContainer.style.gap = '5px';
@@ -171,3 +213,30 @@ findVerseBtn.addEventListener('click', async () => {
     findVerseBtn.textContent = "Find Verse";
   }
 });
+
+// ===== Clear All Verses (Keep Favorites) =====
+const clearVersesBtn = document.getElementById('clear-verses');
+
+if (clearVersesBtn) {
+  clearVersesBtn.addEventListener('click', () => {
+    const cards = verseGrid.querySelectorAll('.verse-card');
+    let removed = 0;
+
+    cards.forEach(card => {
+      const star = card.querySelector('.favorite-star');
+      const isFav = star && star.classList.contains('active');
+      if (!isFav) {
+        card.remove();
+        removed++;
+      }
+    });
+
+    updateCounts();
+
+    if (removed > 0) {
+      showToast(`${removed} non-favorite verses cleared.`);
+    } else {
+      showToast("No non-favorite verses to remove!");
+    }
+  });
+}
